@@ -38,7 +38,9 @@ winnower/
 ├── tests/                       # Test suite
 │   ├── fixtures/               # Test data (sample papers)
 │   ├── test_smoke.py          # Basic functionality tests
-│   ├── test_unit.py           # Unit tests
+│   ├── test_cli.py            # CLI tests
+│   ├── test_config.py         # Configuration tests
+│   ├── test_parsers.py        # Parser tests
 │   ├── test_integration.py    # End-to-end tests
 │   └── conftest.py            # Test configuration
 ├── .github/workflows/          # CI/CD
@@ -53,7 +55,7 @@ winnower/
 3. PaperParser handles input source and extracts raw content
 4. TechnicalExtractor uses AI to identify and extract technical content
 5. MarkdownFormatter generates structured output
-6. Output saved as `{title}_technical_summary.md`
+6. Output saved as `{title}_summary.md`
 
 ## Dependencies
 
@@ -221,14 +223,14 @@ mypy winnower/
 ## File Patterns and Conventions
 
 **Supported Input Formats**:
-- PDF files: `.pdf` (via PyPDF2)
+- PDF files: `.pdf` (via pymupdf4llm with PyPDF2 fallback)
 - Text files: `.txt`, `.md` 
 - URLs: Any HTTP/HTTPS URL (auto-detects PDF vs HTML)
 - arXiv IDs: Format `YYMM.NNNNN` (e.g., `2501.00089`) or `YYMM.NNNNNvX`
 - arXiv URLs: `https://arxiv.org/abs/YYMM.NNNNN` or `/pdf/`
 - Directories: Recursive scanning for supported file types
 
-**Output Naming**: `{sanitized_title}_technical_summary.md`
+**Output Naming**: `{sanitized_title}_summary.md`
 
 **Code Style**: 
 - Black formatting (88 char line length)
