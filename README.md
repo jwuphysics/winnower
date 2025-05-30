@@ -1,6 +1,6 @@
 # 🧺 The Winnower
 
-Summarize methods, algorithms, and technical details from research papers.
+Provides a technical summary of methods and algorithms from research papers.
 
 ## Requirements
 
@@ -10,7 +10,7 @@ Summarize methods, algorithms, and technical details from research papers.
 
 ## Features
 
-The Winnower accepts PDFs, URLs, arXiv IDs, or entire directories of papers. It converts PDFs to markdown for better text extraction and uses OpenAI or Anthropic models to identify core technical content. Output summaries focus on methods and algorithms while filtering out background information and experimental results.
+The Winnower accepts PDFs, URLs, arXiv IDs, or entire directories of papers. You can adjust the prompt to specialize in physics, machine learning, or whatever you want. It converts PDFs to markdown for better text extraction and uses OpenAI or Anthropic models to identify core technical content. Output summaries focus on methods and algorithms while filtering out background information and experimental results.
 
 ## Installation
 
