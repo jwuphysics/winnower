@@ -9,88 +9,89 @@ from dotenv import load_dotenv
 
 
 DEFAULT_CONFIG = {
-    'openai_model': 'gpt-4.1-mini-2025-04-14',
-    'anthropic_model': 'claude-3-sonnet-20240229',
-    'max_tokens': 4000,
-    'temperature': 0.1,
-    'verbose': False,
-    'extraction_prompt': None,
-    'prompt_file': None,
-    'pdf_to_markdown': True,
+    "openai_model": "gpt-4.1-mini-2025-04-14",
+    "anthropic_model": "claude-3-sonnet-20240229",
+    "max_tokens": 4000,
+    "temperature": 0.1,
+    "verbose": False,
+    "extraction_prompt": None,
+    "prompt_file": None,
+    "pdf_to_markdown": True,
 }
 
 
 def load_config(config_path: Optional[Path] = None) -> Dict:
     """Load configuration from file and environment.
-    
+
     Priority order for API keys and settings:
     1. Environment variables (highest priority)
-    2. Project .env file  
+    2. Project .env file
     3. Global .env file (~/.winnower/.env)
     4. Config JSON files (lowest priority, non-sensitive only)
     """
-    # Load .env files in priority order (later calls don't override existing vars)
-    load_dotenv(Path.home() / '.winnower' / '.env')  # Global .env first
-    load_dotenv('.env')  # Project .env second (higher priority)
-    
+    # Load .env files in priority order (later calls don't override
+    # existing vars)
+    load_dotenv(Path.home() / ".winnower" / ".env")  # Global .env first
+    load_dotenv(".env")  # Project .env second (higher priority)
+
     config = DEFAULT_CONFIG.copy()
-    
+
     if config_path and config_path.exists():
-        with open(config_path, 'r') as f:
+        with open(config_path, "r") as f:
             file_config = json.load(f)
             config.update(file_config)
     else:
-        default_config_path = Path.home() / '.winnower' / 'config.json'
+        default_config_path = Path.home() / ".winnower" / "config.json"
         if default_config_path.exists():
-            with open(default_config_path, 'r') as f:
+            with open(default_config_path, "r") as f:
                 file_config = json.load(f)
                 config.update(file_config)
-    
+
     env_overrides = {
-        'openai_model': os.getenv('WINNOWER_OPENAI_MODEL'),
-        'anthropic_model': os.getenv('WINNOWER_ANTHROPIC_MODEL'),
-        'max_tokens': os.getenv('WINNOWER_MAX_TOKENS'),
-        'temperature': os.getenv('WINNOWER_TEMPERATURE'),
-        'prompt_file': os.getenv('WINNOWER_PROMPT_FILE'),
-        'pdf_to_markdown': os.getenv('WINNOWER_PDF_TO_MARKDOWN'),
+        "openai_model": os.getenv("WINNOWER_OPENAI_MODEL"),
+        "anthropic_model": os.getenv("WINNOWER_ANTHROPIC_MODEL"),
+        "max_tokens": os.getenv("WINNOWER_MAX_TOKENS"),
+        "temperature": os.getenv("WINNOWER_TEMPERATURE"),
+        "prompt_file": os.getenv("WINNOWER_PROMPT_FILE"),
+        "pdf_to_markdown": os.getenv("WINNOWER_PDF_TO_MARKDOWN"),
     }
-    
+
     for key, value in env_overrides.items():
         if value is not None:
-            if key in ['max_tokens']:
+            if key in ["max_tokens"]:
                 config[key] = int(value)
-            elif key in ['temperature']:
+            elif key in ["temperature"]:
                 config[key] = float(value)
-            elif key in ['pdf_to_markdown']:
-                config[key] = value.lower() in ('true', '1', 'yes', 'on')
+            elif key in ["pdf_to_markdown"]:
+                config[key] = value.lower() in ("true", "1", "yes", "on")
             else:
                 config[key] = value
-    
+
     return config
 
 
 def create_default_config(config_dir: Path = None) -> Path:
     """Create default configuration file."""
     if config_dir is None:
-        config_dir = Path.home() / '.winnower'
-    
+        config_dir = Path.home() / ".winnower"
+
     config_dir.mkdir(exist_ok=True)
-    config_path = config_dir / 'config.json'
-    
-    with open(config_path, 'w') as f:
+    config_path = config_dir / "config.json"
+
+    with open(config_path, "w") as f:
         json.dump(DEFAULT_CONFIG, f, indent=2)
-    
+
     return config_path
 
 
 def setup_user_env(config_dir: Path = None) -> Path:
     """Set up user environment directory with .env template."""
     if config_dir is None:
-        config_dir = Path.home() / '.winnower'
-    
+        config_dir = Path.home() / ".winnower"
+
     config_dir.mkdir(exist_ok=True)
-    env_path = config_dir / '.env'
-    
+    env_path = config_dir / ".env"
+
     if not env_path.exists():
         env_template = """# The Winnower Global Configuration
 # This file is loaded for all Winnower sessions
@@ -106,13 +107,13 @@ def setup_user_env(config_dir: Path = None) -> Path:
 # WINNOWER_TEMPERATURE=0.1
 """
         env_path.write_text(env_template)
-    
+
     return env_path
 
 
 def check_api_keys() -> Dict[str, bool]:
     """Check which API keys are available."""
     return {
-        'openai': bool(os.getenv('OPENAI_API_KEY')),
-        'anthropic': bool(os.getenv('ANTHROPIC_API_KEY')),
+        "openai": bool(os.getenv("OPENAI_API_KEY")),
+        "anthropic": bool(os.getenv("ANTHROPIC_API_KEY")),
     }
