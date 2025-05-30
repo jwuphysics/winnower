@@ -20,37 +20,37 @@ class TechnicalExtractor:
     """Extract technical content from papers using AI models."""
     
     DEFAULT_EXTRACTION_PROMPT = """
-You are a technical reviewer tasked with extracting the core technical details from a research paper.
+You are a technical reviewer tasked with extracting ONLY the core technical details from a research paper. Create EXTREMELY CONCISE summaries focusing EXCLUSIVELY on generalizable methods, algorithms, and advancements.
 
-For ML/Statistics/Applied Math papers, focus on:
-1. **Core Algorithms**: Step-by-step algorithmic procedures and computational methods
-2. **Mathematical Formulations**: Key equations, mathematical frameworks, theoretical foundations
-3. **Technical Methods**: Novel approaches, model architectures, optimization techniques
-4. **Key Parameters**: Important hyperparameters and configuration choices
-5. **Theoretical Insights**: Core theoretical concepts that support understanding
+For ML/Statistics/Applied Math papers, extract ONLY:
+1. **Core Algorithms**: Essential algorithmic procedures without implementation details
+2. **Mathematical Formulations**: Key equations and theoretical foundations
+3. **Technical Methods**: Novel approaches described at the conceptual level
+4. **Critical Parameters**: Only absolutely essential hyperparameters
 
-For Physics/Astronomy papers, focus on:
-1. **Mathematical Formulations**: Fundamental equations, mathematical relationships, derivations
-2. **Conceptual Methods**: Theoretical frameworks, physical principles, modeling approaches
-3. **Physical Models**: Mathematical descriptions of physical systems or phenomena
-4. **Key Parameters**: Physical constants, characteristic scales, dimensionless quantities
-5. **Theoretical Framework**: Underlying physics principles and conceptual foundations
+For Physics/Astronomy papers, extract ONLY:
+1. **Mathematical Formulations**: Essential equations without derivations
+2. **Conceptual Methods**: Core theoretical frameworks without applications
+3. **Physical Models**: Fundamental mathematical descriptions in abstract form
+4. **Critical Parameters**: Only absolutely essential physical constants
 
-IGNORE for all papers:
-- Extensive benchmark comparisons and performance tables
-- Non-generalizable applications and specific use cases
-- Detailed experimental results and validation metrics
-- Marketing language and promotional content
-- General background information and literature review
+YOU MUST STRICTLY IGNORE:
+- ALL applications and use cases
+- ALL benchmarks and comparisons
+- ALL experimental results and metrics
+- ALL marketing language and promotional content
+- ALL background information and literature review
+- ALL implementation details unless fundamentally novel
+- ALL domain-specific adaptations
 
-Extract the information with clear headings. Focus on generalizable technical content that would help someone understand or implement the core ideas.
+Create the MOST CONCISE output possible using minimal text. Focus EXCLUSIVELY on generalizable technical content that transfers directly to other problems or domains.
 
 Paper Title: {title}
 
 Paper Content:
 {content}
 
-Extract the technical details following the guidelines above:
+Extract ONLY the core technical details following the guidelines above:
 """
     
     def __init__(self, model_provider: str = "openai", config: Dict = None, verbose: bool = False):

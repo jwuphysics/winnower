@@ -13,7 +13,7 @@ from .config import load_config, setup_user_env, check_api_keys
 def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="winnower",
-        description="Extract core technical details from research papers",
+        description="Extract generalizable methods and algorithms from research papers",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -43,8 +43,8 @@ def _add_main_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "-o", "--output",
         type=Path,
-        help="Output directory (default: current directory)",
-        default=Path.cwd(),
+        help="Output directory (default: ./winnower_output)",
+        default=Path.cwd() / "winnower_output",
     )
     
     parser.add_argument(

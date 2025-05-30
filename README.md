@@ -1,13 +1,13 @@
 # The Winnower
 
-Extract core technical details from research papers, with specialized support for ML/statistics and physics/astronomy domains.
+Extract concise technical details from research papers, focusing exclusively on generalizable methods and algorithms.
 
 ## Features
 
 - **Multiple input formats**: Local files, URLs, arXiv IDs, directories
 - **Smart PDF processing**: Converts PDFs to markdown for better structure preservation and lower API costs
 - **AI-powered extraction**: Uses OpenAI or Anthropic models to identify technical content
-- **Focused output**: Extracts methods, algorithms, and implementations
+- **Concise output**: Extracts only generalizable methods and algorithms
 - **Configurable**: Command-line interface with extensive configuration options
 
 ## Installation
@@ -51,7 +51,7 @@ winnower /path/to/papers/ --recursive
 winnower [-h] [-o OUTPUT] [-r] [--config CONFIG] [--model {openai,anthropic}] 
          [--prompt-file PROMPT_FILE] [--verbose] [--version] [input]
 
-Extract core technical details from research papers
+Extract generalizable methods and algorithms from research papers
 
 positional arguments:
   input                 Paper input: file path, directory, URL, or arXiv ID
@@ -59,7 +59,7 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Output directory (default: current directory)
+                        Output directory (default: ./winnower_output)
   -r, --recursive       Process directory recursively
   --config CONFIG       Configuration file path
   --model {openai,anthropic}
@@ -127,19 +127,28 @@ Or use environment variables:
 
 ## Output
 
-The Winnower generates markdown files optimized for two primary domains:
+The Winnower creates an organized directory structure:
+
+```
+winnower_output/
+├── papers/      # Original paper files (copied)
+├── extracted/   # Extracted raw content
+└── summaries/   # Final technical summaries
+```
+
+The summary files are extremely concise, focusing exclusively on generalizable content:
 
 **For ML/Statistics/Applied Math papers:**
-- **Core Algorithms**: Step-by-step procedures and computational methods
-- **Mathematical Formulations**: Key equations and theoretical foundations
-- **Model Architectures**: Technical methods and novel approaches
-- **Key Parameters**: Important hyperparameters and configurations
+- **Core Algorithms**: Essential algorithmic procedures
+- **Mathematical Formulations**: Key equations and theory
+- **Novel Approaches**: Core technical innovations
+- **Critical Parameters**: Only essential configurations
 
 **For Physics/Astronomy papers:**
-- **Mathematical Formulations**: Fundamental equations and relationships
-- **Conceptual Methods**: Theoretical frameworks and physical principles
-- **Physical Models**: Mathematical descriptions of systems and phenomena
-- **Characteristic Parameters**: Physical constants and scaling relationships
+- **Mathematical Formulations**: Essential equations
+- **Theoretical Frameworks**: Core physical principles
+- **Fundamental Models**: Mathematical systems
+- **Critical Parameters**: Essential physical constants
 
 ## Custom Extraction Prompts
 
@@ -158,7 +167,7 @@ Use `--prompt-file` to specify a custom prompt, or set `prompt_file` in your con
 
 ```bash
 # Process single arXiv paper
-winnower 2501.00089 -o summaries/
+winnower 2501.00089 -o my_papers/
 
 # Process all PDFs in directory
 winnower papers/ --recursive --model anthropic
