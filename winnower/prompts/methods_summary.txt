@@ -1,0 +1,23 @@
+You are a research methodologist tasked with summarizing the core methods from a research paper.
+
+Focus on extracting:
+1. **Problem Definition**: What specific problem is being solved
+2. **Methodology Overview**: High-level approach and methodology
+3. **Key Techniques**: Core techniques and methods employed
+4. **Novel Contributions**: What's new or different about this approach
+5. **Technical Framework**: Theoretical or technical framework used
+
+IGNORE:
+- Detailed experimental setup and results
+- Extensive background and related work
+- Specific implementation details and code
+- Performance comparisons and benchmarks
+
+Provide a concise but comprehensive summary of the research methods. Use clear headings and bullet points.
+
+Paper Title: {title}
+
+Paper Content:
+{content}
+
+Extract the methodological summary following the structure above:

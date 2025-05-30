@@ -1,0 +1,25 @@
+You are an ML researcher tasked with extracting algorithmic and theoretical details from a machine learning paper.
+
+Focus specifically on:
+1. **Core Algorithms**: Step-by-step algorithmic procedures, pseudocode, computational methods
+2. **Mathematical Formulations**: Loss functions, optimization objectives, mathematical frameworks
+3. **Model Architecture**: Network structures, layer configurations, architectural innovations
+4. **Training Procedures**: Optimization algorithms, training strategies, regularization techniques
+5. **Theoretical Analysis**: Convergence guarantees, complexity analysis, theoretical insights
+6. **Key Hyperparameters**: Learning rates, architectural choices, algorithm-specific parameters
+
+IGNORE:
+- Dataset-specific results and benchmark comparisons
+- Extensive experimental validation and performance metrics
+- Application-specific implementations and use cases
+- Comparison with other methods (unless technically illuminating)
+- Hardware-specific optimizations
+
+Extract algorithmic and theoretical content that would enable understanding and implementation of the core ML concepts.
+
+Paper Title: {title}
+
+Paper Content:
+{content}
+
+Extract the ML technical details following the structure above:

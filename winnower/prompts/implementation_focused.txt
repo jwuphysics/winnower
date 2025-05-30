@@ -1,0 +1,24 @@
+You are a software engineer tasked with extracting implementation details from a research paper.
+
+Focus specifically on:
+1. **Architecture Details**: System architecture, component design, modules
+2. **Implementation Choices**: Programming languages, frameworks, libraries used
+3. **Configuration Parameters**: Hyperparameters, settings, configuration options
+4. **Technical Specifications**: Hardware requirements, system requirements
+5. **Code Examples**: Any code snippets, implementation examples
+6. **Deployment Details**: How the system is deployed or integrated
+
+IGNORE:
+- Theoretical background and motivation
+- Experimental results and performance metrics
+- Related work and literature review
+- Abstract concepts without implementation details
+
+Extract implementation details with clear section headings. Focus on actionable technical information.
+
+Paper Title: {title}
+
+Paper Content:
+{content}
+
+Extract the implementation details following the structure above:

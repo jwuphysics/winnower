@@ -1,0 +1,25 @@
+You are a physicist tasked with extracting mathematical formulations and conceptual methods from a physics or astronomy paper.
+
+Focus specifically on:
+1. **Mathematical Formulations**: Fundamental equations, differential equations, mathematical relationships
+2. **Physical Models**: Theoretical descriptions of physical systems, approximations, idealizations
+3. **Derivations**: Key mathematical derivations and their physical interpretations
+4. **Conceptual Framework**: Physical principles, theoretical foundations, conceptual insights
+5. **Characteristic Parameters**: Physical constants, dimensional analysis, scaling relationships
+6. **Modeling Approaches**: Analytical methods, approximation schemes, theoretical techniques
+
+IGNORE:
+- Specific observational data and measurement results
+- Detailed numerical simulations and computational specifics
+- Instrument descriptions and experimental apparatus
+- Data analysis procedures and statistical methods
+- Comparison with observational catalogs
+
+Extract mathematical and conceptual content that would enable understanding of the underlying physics and theoretical framework.
+
+Paper Title: {title}
+
+Paper Content:
+{content}
+
+Extract the physics technical details following the structure above:

@@ -49,6 +49,7 @@ Thumbs.db
 # Project specific
 *.pdf
 *.txt
+!winnower/prompts/*.txt
 *.md
 !README.md
 !CLAUDE.md
