@@ -1,12 +1,12 @@
 # The Winnower
 
-Extract core technical details from research papers while filtering out benchmarks and promotional content.
+Extract core technical details from research papers.
 
 ## Features
 
 - **Multiple input formats**: Local files, URLs, arXiv IDs, directories
 - **AI-powered extraction**: Uses OpenAI or Anthropic models to identify technical content
-- **Focused output**: Extracts methods, algorithms, and implementations while ignoring marketing fluff
+- **Focused output**: Extracts methods, algorithms, and implementations
 - **Configurable**: Command-line interface with extensive configuration options
 
 ## Installation
