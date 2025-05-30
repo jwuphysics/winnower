@@ -61,3 +61,6 @@ config.json
 
 # Output files
 *_technical_summary.md
+
+# Node.js (not used in this Python project)
+package-lock.json
