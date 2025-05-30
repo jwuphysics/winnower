@@ -88,6 +88,13 @@ def _add_main_arguments(parser: argparse.ArgumentParser) -> None:
     )
 
     parser.add_argument(
+        "--length",
+        type=int,
+        help="Target length for technical summary in words (default: 200)",
+        metavar="WORDS",
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version=f"%(prog)s {__import__('winnower').__version__}",
@@ -150,6 +157,9 @@ def main(argv: Optional[list] = None) -> int:
 
         if hasattr(args, "no_markdown") and args.no_markdown:
             config["pdf_to_markdown"] = False
+
+        if hasattr(args, "length") and args.length:
+            config["summary_length"] = args.length
 
         processor = WinnowerProcessor(
             config,

@@ -18,3 +18,4 @@
 ## Developer Memories
 
 - Always use the project API keys in .env when testing
+- Always use `uv run` to execute Python commands and tests

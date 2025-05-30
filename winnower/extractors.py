@@ -62,7 +62,7 @@ Paper Content:
 {content}
 
 Extract ONLY the core technical details following the guidelines
-above:
+above. Limit your response to approximately {length} words:
 """
 
     def __init__(
@@ -159,7 +159,9 @@ above:
     def _extract_with_ai(self, title: str, content: str) -> str:
         """Extract technical content using AI model."""
         prompt = self.extraction_prompt.format(
-            title=title, content=content
+            title=title, 
+            content=content,
+            length=self.config.get("summary_length", 200)
         )
 
         if self.model_provider == "openai":

@@ -17,6 +17,7 @@ DEFAULT_CONFIG = {
     "extraction_prompt": None,
     "prompt_file": None,
     "pdf_to_markdown": True,
+    "summary_length": 200,
 }
 
 
@@ -54,11 +55,12 @@ def load_config(config_path: Optional[Path] = None) -> Dict:
         "temperature": os.getenv("WINNOWER_TEMPERATURE"),
         "prompt_file": os.getenv("WINNOWER_PROMPT_FILE"),
         "pdf_to_markdown": os.getenv("WINNOWER_PDF_TO_MARKDOWN"),
+        "summary_length": os.getenv("WINNOWER_SUMMARY_LENGTH"),
     }
 
     for key, value in env_overrides.items():
         if value is not None:
-            if key in ["max_tokens"]:
+            if key in ["max_tokens", "summary_length"]:
                 config[key] = int(value)
             elif key in ["temperature"]:
                 config[key] = float(value)
