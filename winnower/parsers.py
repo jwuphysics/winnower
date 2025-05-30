@@ -11,12 +11,20 @@ import requests
 from bs4 import BeautifulSoup
 from PyPDF2 import PdfReader
 
+try:
+    import pymupdf4llm
+    PYMUPDF4LLM_AVAILABLE = True
+except ImportError:
+    PYMUPDF4LLM_AVAILABLE = False
+    pymupdf4llm = None
+
 
 class PaperParser:
     """Parse papers from various sources."""
     
-    def __init__(self, verbose: bool = False):
+    def __init__(self, verbose: bool = False, config: Dict = None):
         self.verbose = verbose
+        self.config = config or {}
     
     def parse(self, source: str) -> Dict[str, str]:
         """Parse paper from source and return structured content."""
@@ -120,7 +128,29 @@ class PaperParser:
         }
     
     def _extract_pdf_text(self, pdf_path: Path) -> str:
-        """Extract text from PDF file."""
+        """Extract text from PDF file, with optional markdown conversion."""
+        # Check if we should use markdown conversion
+        use_markdown = self.config.get('pdf_to_markdown', True)
+        
+        if use_markdown and PYMUPDF4LLM_AVAILABLE:
+            try:
+                if self.verbose:
+                    print("Converting PDF to markdown using pymupdf4llm...")
+                markdown_text = pymupdf4llm.to_markdown(str(pdf_path))
+                return markdown_text
+            except Exception as e:
+                if self.verbose:
+                    print(f"Markdown conversion failed, falling back to text extraction: {e}")
+                # Fall through to legacy extraction
+        elif use_markdown and not PYMUPDF4LLM_AVAILABLE:
+            if self.verbose:
+                print("pymupdf4llm not available, using legacy PDF extraction")
+        
+        # Legacy PyPDF2 extraction
+        return self._extract_pdf_text_legacy(pdf_path)
+    
+    def _extract_pdf_text_legacy(self, pdf_path: Path) -> str:
+        """Legacy PDF text extraction using PyPDF2."""
         try:
             reader = PdfReader(str(pdf_path))
             text = []

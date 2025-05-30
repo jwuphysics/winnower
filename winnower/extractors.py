@@ -2,6 +2,7 @@
 
 import os
 import re
+from pathlib import Path
 from typing import Dict, List, Optional
 
 try:
@@ -18,37 +19,45 @@ except ImportError:
 class TechnicalExtractor:
     """Extract technical content from papers using AI models."""
     
-    EXTRACTION_PROMPT = """
-You are a technical reviewer tasked with extracting the core technical details from a research paper. 
+    DEFAULT_EXTRACTION_PROMPT = """
+You are a technical reviewer tasked with extracting the core technical details from a research paper.
 
-Focus on extracting:
-1. **Core Methods**: The fundamental approaches, algorithms, or techniques
-2. **Technical Implementation**: Specific algorithms, mathematical formulations, architectural details
-3. **Key Innovations**: Novel technical contributions or improvements
-4. **Technical Parameters**: Important hyperparameters, model configurations, technical specifications
-5. **Experimental Setup**: Technical aspects of experiments (not results/benchmarks)
+For ML/Statistics/Applied Math papers, focus on:
+1. **Core Algorithms**: Step-by-step algorithmic procedures and computational methods
+2. **Mathematical Formulations**: Key equations, mathematical frameworks, theoretical foundations
+3. **Technical Methods**: Novel approaches, model architectures, optimization techniques
+4. **Key Parameters**: Important hyperparameters and configuration choices
+5. **Theoretical Insights**: Core theoretical concepts that support understanding
 
-IGNORE:
+For Physics/Astronomy papers, focus on:
+1. **Mathematical Formulations**: Fundamental equations, mathematical relationships, derivations
+2. **Conceptual Methods**: Theoretical frameworks, physical principles, modeling approaches
+3. **Physical Models**: Mathematical descriptions of physical systems or phenomena
+4. **Key Parameters**: Physical constants, characteristic scales, dimensionless quantities
+5. **Theoretical Framework**: Underlying physics principles and conceptual foundations
+
+IGNORE for all papers:
+- Extensive benchmark comparisons and performance tables
+- Non-generalizable applications and specific use cases
+- Detailed experimental results and validation metrics
 - Marketing language and promotional content
-- Extensive benchmark comparisons and results tables
-- Related work sections (unless they contain technical details for the current work)
-- General background information
-- Detailed experimental results and performance metrics
+- General background information and literature review
 
-Extract the information and structure it with clear headings. Be concise but comprehensive for technical details.
+Extract the information with clear headings. Focus on generalizable technical content that would help someone understand or implement the core ideas.
 
 Paper Title: {title}
 
 Paper Content:
 {content}
 
-Extract the technical details following the structure above:
+Extract the technical details following the guidelines above:
 """
     
     def __init__(self, model_provider: str = "openai", config: Dict = None, verbose: bool = False):
         self.model_provider = model_provider
         self.config = config or {}
         self.verbose = verbose
+        self.extraction_prompt = self._load_extraction_prompt()
         
         if model_provider == "openai":
             if not openai:
@@ -99,9 +108,25 @@ Extract the technical details following the structure above:
         
         return content.strip()
     
+    def _load_extraction_prompt(self) -> str:
+        """Load extraction prompt from config or use default."""
+        prompt_file = self.config.get('prompt_file')
+        if prompt_file and Path(prompt_file).exists():
+            if self.verbose:
+                print(f"Loading custom prompt from: {prompt_file}")
+            return Path(prompt_file).read_text(encoding='utf-8')
+        
+        custom_prompt = self.config.get('extraction_prompt')
+        if custom_prompt:
+            if self.verbose:
+                print("Using custom prompt from config")
+            return custom_prompt
+            
+        return self.DEFAULT_EXTRACTION_PROMPT
+    
     def _extract_with_ai(self, title: str, content: str) -> str:
         """Extract technical content using AI model."""
-        prompt = self.EXTRACTION_PROMPT.format(title=title, content=content)
+        prompt = self.extraction_prompt.format(title=title, content=content)
         
         if self.model_provider == "openai":
             return self._extract_with_openai(prompt)

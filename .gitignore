@@ -51,6 +51,7 @@ Thumbs.db
 *.txt
 *.md
 !README.md
+!CLAUDE.md
 !*.py
 
 # API keys and secrets

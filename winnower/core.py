@@ -16,7 +16,7 @@ class WinnowerProcessor:
         self.config = config
         self.verbose = verbose
         
-        self.parser = PaperParser(verbose=verbose)
+        self.parser = PaperParser(verbose=verbose, config=config)
         self.extractor = TechnicalExtractor(
             model_provider=model_provider,
             config=config,
