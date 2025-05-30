@@ -19,3 +19,4 @@
 
 - Always use the project API keys in .env when testing
 - Always use `uv run` to execute Python commands and tests
+- When creating git tags, always update version numbers in both `winnower/__init__.py` and `pyproject.toml`

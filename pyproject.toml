@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "winnower"
-version = "0.1.0"
+version = "0.2.2"
 description = "Extract core technical details from research papers"
 authors = [{name = "John F. Wu", email = "jwuphysics@gmail.com"}]
 license = {text = "MIT"}
