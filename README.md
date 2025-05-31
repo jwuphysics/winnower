@@ -164,41 +164,6 @@ winnower [-h] [-o OUTPUT] [-r] [--config CONFIG] [--model {openai,anthropic}]
 - `--length WORDS` - Target length for technical summary in words (default: 200)
 - `--version` - Show program version number and exit
 
-## Development
-
-To contribute to The Winnower:
-
-```bash
-# Clone and setup
-git clone https://github.com/jwuphysics/winnower.git
-cd winnower
-uv venv && source .venv/bin/activate
-uv pip install -e .[dev,test]
-
-# Run tests
-make test           # All tests
-make test-smoke     # Quick functionality check
-make test-unit      # Unit tests only
-
-# Code quality
-make format         # Format with black
-make lint          # Run flake8 and mypy
-
-# Create .env with test keys for development
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes and add tests
-4. Run tests and ensure they pass (`make test`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
 ## License
 
 MIT

@@ -112,15 +112,41 @@ class WinnowerProcessor:
             return [input_source]
 
     def _generate_safe_filename(self, title: str, suffix: str = "") -> str:
-        """Generate a safe filename from paper title with optional suffix."""
-        safe_title = "".join(
-            c for c in title if c.isalnum() or c in (" ", "-", "_")
-        ).rstrip()
-        safe_title = safe_title.replace(" ", "_")[:50]
-
-        if not safe_title:
-            safe_title = "paper"
-
+        """Generate a safe filename from paper title, focusing on security."""
+        import re
+        
+        # Remove path traversal attempts and dangerous characters
+        # Keep only alphanumeric, spaces, hyphens, underscores, and basic punctuation
+        safe_chars = re.sub(r'[<>:"/\\|?*\x00-\x1f]', '_', title)
+        
+        # Remove any path separators that might have been encoded differently
+        safe_chars = safe_chars.replace('..', '_').replace('~', '_')
+        
+        # Replace multiple whitespace with single underscore  
+        safe_chars = re.sub(r'\s+', '_', safe_chars)
+        
+        # Remove leading dots (hidden files) and trim whitespace/punctuation
+        safe_chars = safe_chars.lstrip('.').strip('_- ')
+        
+        # Truncate to reasonable length
+        if len(safe_chars) > 50:
+            safe_chars = safe_chars[:50].rstrip('_')
+        
+        # Handle empty or very short results
+        if not safe_chars or len(safe_chars) < 3:
+            safe_chars = "paper"
+        
+        # Check for Windows reserved device names (security risk)
+        base_name = safe_chars.split('.')[0].upper()
+        reserved_names = {
+            'CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 
+            'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 
+            'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+        }
+        if base_name in reserved_names:
+            safe_chars = f"paper_{safe_chars}"
+        
+        # Add suffix if provided
         if suffix:
-            return f"{safe_title}_{suffix}"
-        return safe_title
+            return f"{safe_chars}_{suffix}"
+        return safe_chars

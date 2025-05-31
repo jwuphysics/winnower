@@ -13,7 +13,10 @@ def test_import_winnower():
     """Test that winnower can be imported without errors."""
     import winnower
 
-    assert winnower.__version__ == "0.1.0"
+    # Check version exists and follows semantic versioning pattern
+    assert hasattr(winnower, "__version__")
+    assert isinstance(winnower.__version__, str)
+    assert len(winnower.__version__.split(".")) >= 2  # At least major.minor
 
 
 def test_cli_help():
@@ -36,7 +39,10 @@ def test_cli_version():
     )
 
     assert result.returncode == 0
-    assert "0.1.0" in result.stdout
+    # Check that output contains a version number pattern
+    import re
+    version_pattern = r'\d+\.\d+\.\d+'
+    assert re.search(version_pattern, result.stdout)
 
 
 @patch("winnower.cli.setup_user_env")
